@@ -1,0 +1,16 @@
+cmake==3.25.2
+Cython==0.29.33
+dlib==19.24.0
+imageio==2.25.1
+networkx==3.0
+numpy==1.24.2
+opencv-python==4.7.0.72
+packaging==23.0
+Pillow==9.4.0
+python-speech-features==0.6
+PyWavelets==1.4.1
+pyworld==0.3.2
+PyYAML==6.0
+scikit-image==0.19.3
+scipy==1.10.1
+tifffile==2023.2.3
