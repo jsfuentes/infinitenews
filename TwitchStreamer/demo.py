@@ -14,13 +14,14 @@ import argparse
 # Creates a signed s3 url
 # Returns
 def get_next_video_url(prev_video_name=None):
-    return {"name": "videoplayback.mp4", "url": "videoplayback.mp4"}
+    return {"name": "videos.txt", "url": "videos.txt"}
+    # return {"name": "videoplayback.mp4", "url": "videoplayback.mp4"}
 
-# Creates the video stream from the url and returns it without running it
+# Creates the video stream from the url and returns it without running it **{"b:v": "5M"},
 def prepare_video_stream(video_url):
-    stream = ffmpeg.input(video_url)
+    stream = ffmpeg.input(video_url, f="concat")
     stream = ffmpeg.output(stream, rtmp_endpoint, vcodec="libx264", preset="veryfast", maxrate="3000k", bufsize="6000k",
-                           pix_fmt="yuv420p", g="60", **{"b:v": "5M"}, acodec="aac", **{"b:a": "128k"}, ar="44100",
+                           pix_fmt="yuv420p", g="60",  acodec="aac", **{"b:a": "128k"}, ar="44100",
                            f="flv")
     return stream
 
@@ -43,11 +44,12 @@ if __name__ == "__main__":
 
     # ffmpeg [your input parameters] -vcodec libx264 -b:v 5M -acodec aac -b:a 256k -f flv [your RTMP URL]
     prev_video_name = None
-    while True:
-        next_video = get_next_video_url(prev_video_name)
-        prev_video_name = next_video["name"]
-        stream = prepare_video_stream(next_video["url"])
-        # stream = ffmpeg.input("videoplayback.mp4")
-        # stream = ffmpeg.output(stream, rtmp_endpoint, vcodec="libx264", preset="veryfast", maxrate="3000k", bufsize="6000k", pix_fmt="yuv420p", g="60", **{"b:v": "5M"}, acodec="aac", **{"b:a": "128k"}, ar="44100", f="flv")
-        stream.run()
-    # print("THOMAS", stream.compile())
+
+    # while True:
+    next_video = get_next_video_url(prev_video_name)
+    prev_video_name = next_video["name"]
+    stream = prepare_video_stream(next_video["url"])
+    print("THESE NETS")
+    # stream = ffmpeg.input("videoplayback.mp4")
+    # stream = ffmpeg.output(stream, rtmp_endpoint, vcodec="libx264", preset="veryfast", maxrate="3000k", bufsize="6000k", pix_fmt="yuv420p", g="60", **{"b:v": "5M"}, acodec="aac", **{"b:a": "128k"}, ar="44100", f="flv")
+    stream.run()
