@@ -14,7 +14,7 @@ import argparse
 # Creates a signed s3 url
 # Returns
 def get_next_video_url(prev_video_name=None):
-    return {"name": "videoplayback.mp4", "url": "videoplayback.mp4"}
+    return {"name": "videoplayback.mp4", "url": "./shakthi_i_love_you.mp4"}
 
 # Creates the video stream from the url and returns it without running it
 def prepare_video_stream(video_url):

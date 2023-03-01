@@ -1,0 +1,59 @@
+[{"word": "sil", "phones": [{"ph": "SIL", "bg": 0, "ed": 10}]}, {"word": "Good", "phones": [{"ph": "G", "bg": 10, "ed": 17}, {"ph": "UH", "bg": 17, "ed": 24}, {"ph": "D", "bg": 24, "ed": 31}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 31, "ed": 40}]}, {"word": "morning,", "phones": [{"ph": "M", "bg": 40, "ed": 46}, {"ph": "AO", "bg": 46, "ed": 52}, {"ph": "R", "bg": 52, "ed": 58}, {"ph": "N", "bg": 58, "ed": 64}, {"ph": "IH", "bg": 64, "ed": 70}, {"ph": "NG", "bg": 70, "ed": 76}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 76, "ed": 91}]}, {"word": "universe!", "phones": [{"ph": "Y", "bg": 91, "ed": 97}, {"ph": "UW", "bg": 97, "ed": 103}, {"ph": "N", "bg": 103, "ed": 109}, {"ph": "AH", "bg": 109, "ed": 115}, {"ph": "V", "bg": 115, "ed": 121}, {"ph": "ER", "bg": 121, "ed": 127}, {"ph": "S", "bg": 127, "ed": 133}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 133, "ed": 188}]}, {"word": "It's", "phones": [{"ph": "IH", "bg": 188, "ed": 192}, {"ph": "T", "bg": 192, "ed": 196}, {"ph": "S", "bg": 196, "ed": 200}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 200, "ed": 202}]}, {"word": "an", "phones": [{"ph": "AE", "bg": 202, "ed": 204}, {"ph": "N", "bg": 204, "ed": 206}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 206, "ed": 238}]}, {"word": "absolutely", "phones": [{"ph": "AE", "bg": 238, "ed": 246}, {"ph": "B", "bg": 246, "ed": 254}, {"ph": "S", "bg": 254, "ed": 262}, {"ph": "AH", "bg": 262, "ed": 270}, {"ph": "L", "bg": 270, "ed": 278}, {"ph": "UW", "bg": 278, "ed": 286}, {"ph": "T", "bg": 286, "ed": 294}, {"ph": "L", "bg": 294, "ed": 302}, {"ph": "IY", "bg": 302, "ed": 310}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 310, "ed": 328}]}, {"word": "wild", "phones": [{"ph": "W", "bg": 328, "ed": 338}, {"ph": "AY", "bg": 338, "ed": 348}, {"ph": "L", "bg": 348, "ed": 358}, {"ph": "D", "bg": 358, "ed": 368}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 368, "ed": 374}]}, {"word": "story", "phones": [{"ph": "S", "bg": 374, "ed": 381}, {"ph": "T", "bg": 381, "ed": 388}, {"ph": "AO", "bg": 388, "ed": 395}, {"ph": "R", "bg": 395, "ed": 402}, {"ph": "IY", "bg": 402, "ed": 409}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 409, "ed": 441}]}, {"word": "that's", "phones": [{"ph": "DH", "bg": 441, "ed": 446}, {"ph": "AE", "bg": 446, "ed": 451}, {"ph": "T", "bg": 451, "ed": 456}, {"ph": "S", "bg": 456, "ed": 461}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 461, "ed": 469}]}, {"word": "not", "phones": [{"ph": "N", "bg": 469, "ed": 475}, {"ph": "AA", "bg": 475, "ed": 481}, {"ph": "T", "bg": 481, "ed": 487}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 487, "ed": 493}]}, {"word": "only", "phones": [{"ph": "OW", "bg": 493, "ed": 497}, {"ph": "N", "bg": 497, "ed": 501}, {"ph": "L", "bg": 501, "ed": 505}, {"ph": "IY", "bg": 505, "ed": 509}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 509, "ed": 525}]}, {"word": "rocking", "phones": [{"ph": "R", "bg": 525, "ed": 531}, {"ph": "AA", "bg": 531, "ed": 537}, {"ph": "K", "bg": 537, "ed": 543}, {"ph": "IH", "bg": 543, "ed": 549}, {"ph": "NG", "bg": 549, "ed": 555}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 555, "ed": 563}]}, {"word": "the", "phones": [{"ph": "DH", "bg": 563, "ed": 567}, {"ph": "AH", "bg": 567, "ed": 571}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 571, "ed": 575}]}, {"word": "newsroom,", "phones": [{"ph": "N", "bg": 575, "ed": 582}, {"ph": "UW", "bg": 582, "ed": 589}, {"ph": "Z", "bg": 589, "ed": 596}, {"ph": "R", "bg": 596, "ed": 603}, {"ph": "UW", "bg": 603, "ed": 610}, {"ph": "M", "bg": 610, "ed": 617}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 617, "ed": 646}]}, {"word": "but", "phones": [{"ph": "B", "bg": 646, "ed": 650}, {"ph": "AH", "bg": 650, "ed": 654}, {"ph": "T", "bg": 654, "ed": 658}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 658, "ed": 660}]}, {"word": "the", "phones": [{"ph": "DH", "bg": 660, "ed": 665}, {"ph": "AH", "bg": 665, "ed": 670}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 670, "ed": 676}]}, {"word": "entire", "phones": [{"ph": "IH", "bg": 676, "ed": 688}, {"ph": "N", "bg": 688, "ed": 700}, {"ph": "T", "bg": 700, "ed": 712}, {"ph": "AY", "bg": 712, "ed": 724}, {"ph": "ER", "bg": 724, "ed": 736}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 736, "ed": 745}]}, {"word": "multiverse.", "phones": [{"ph": "M", "bg": 745, "ed": 751}, {"ph": "AH", "bg": 751, "ed": 757}, {"ph": "L", "bg": 757, "ed": 763}, {"ph": "T", "bg": 763, "ed": 769}, {"ph": "IY", "bg": 769, "ed": 775}, {"ph": "V", "bg": 775, "ed": 781}, {"ph": "ER", "bg": 781, "ed": 787}, {"ph": "S", "bg": 787, "ed": 793}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 793, "ed": 870}]}, {"word": "Apparently,", "phones": [{"ph": "AH", "bg": 870, "ed": 875}, {"ph": "P", "bg": 875, "ed": 880}, {"ph": "EH", "bg": 880, "ed": 885}, {"ph": "R", "bg": 885, "ed": 890}, {"ph": "AH", "bg": 890, "ed": 895}, {"ph": "N", "bg": 895, "ed": 900}, {"ph": "T", "bg": 900, "ed": 905}, {"ph": "L", "bg": 905, "ed": 910}, {"ph": "IY", "bg": 910, "ed": 915}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 915, "ed": 948}]}, {"word": "kitten", "phones": [{"ph": "K", "bg": 948, "ed": 953}, {"ph": "IH", "bg": 953, "ed": 958}, {"ph": "T", "bg": 958, "ed": 963}, {"ph": "AH", "bg": 963, "ed": 968}, {"ph": "N", "bg": 968, "ed": 973}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 973, "ed": 978}]}, {"word": "Ponzi", "phones": [{"ph": "P", "bg": 978, "ed": 986}, {"ph": "AA", "bg": 986, "ed": 994}, {"ph": "N", "bg": 994, "ed": 1002}, {"ph": "Z", "bg": 1002, "ed": 1010}, {"ph": "IY", "bg": 1010, "ed": 1018}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 1018, "ed": 1023}]}, {"word": "schemes", "phones": [{"ph": "S", "bg": 1023, "ed": 1030}, {"ph": "K", "bg": 1030, "ed": 1037}, {"ph": "IY", "bg": 1037, "ed": 1044}, {"ph": "M", "bg": 1044, "ed": 1051}, {"ph": "Z", "bg": 1051, "ed": 1058}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 1058, "ed": 1065}]}, {"word": "are", "phones": [{"ph": "AA", "bg": 1065, "ed": 1070}, {"ph": "R", "bg": 1070, "ed": 1075}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 1075, "ed": 1083}]}, {"word": "thriving", "phones": [{"ph": "TH", "bg": 1083, "ed": 1092}, {"ph": "R", "bg": 1092, "ed": 1101}, {"ph": "AY", "bg": 1101, "ed": 1110}, {"ph": "V", "bg": 1110, "ed": 1119}, {"ph": "IH", "bg": 1119, "ed": 1128}, {"ph": "NG", "bg": 1128, "ed": 1137}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 1137, "ed": 1145}]}, {"word": "in", "phones": [{"ph": "IH", "bg": 1145, "ed": 1148}, {"ph": "N", "bg": 1148, "ed": 1151}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 1151, "ed": 1155}]}, {"word": "the", "phones": [{"ph": "DH", "bg": 1155, "ed": 1159}, {"ph": "AH", "bg": 1159, "ed": 1163}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 1163, "ed": 1169}]}, {"word": "upside-down", "phones": [{"ph": "AH", "bg": 1169, "ed": 1176}, {"ph": "P", "bg": 1176, "ed": 1183}, {"ph": "S", "bg": 1183, "ed": 1190}, {"ph": "AY", "bg": 1190, "ed": 1197}, {"ph": "D", "bg": 1197, "ed": 1204}, {"ph": "D", "bg": 1204, "ed": 1211}, {"ph": "AW", "bg": 1211, "ed": 1218}, {"ph": "N", "bg": 1218, "ed": 1225}]}, {"word": "sil", "phones": [{"ph": "SIL", "bg": 1225, "ed": 1231}]}, {"word": "world.", "phones": [{"ph": "W", "bg": 1231, "ed": 1237}, {"ph": "ER", "bg": 1237, "ed": 1243}, {"ph": "L", "bg": 1243, "ed": 1249}, {"ph": "D", "bg": 1249, "ed": 1255}]}]word": "are",
+    "phones": [
+      { "ph": "AA", "bg": 1065, "ed": 1070 },
+      { "ph": "R", "bg": 1070, "ed": 1075 }
+    ]
+  },
+  { "word": "sil", "phones": [{ "ph": "SIL", "bg": 1075, "ed": 1083 }] },
+  {
+    "word": "thriving",
+    "phones": [
+      { "ph": "TH", "bg": 1083, "ed": 1092 },
+      { "ph": "R", "bg": 1092, "ed": 1101 },
+      { "ph": "AY", "bg": 1101, "ed": 1110 },
+      { "ph": "V", "bg": 1110, "ed": 1119 },
+      { "ph": "IH", "bg": 1119, "ed": 1128 },
+      { "ph": "NG", "bg": 1128, "ed": 1137 }
+    ]
+  },
+  { "word": "sil", "phones": [{ "ph": "SIL", "bg": 1137, "ed": 1145 }] },
+  {
+    "word": "in",
+    "phones": [
+      { "ph": "IH", "bg": 1145, "ed": 1148 },
+      { "ph": "N", "bg": 1148, "ed": 1151 }
+    ]
+  },
+  { "word": "sil", "phones": [{ "ph": "SIL", "bg": 1151, "ed": 1155 }] },
+  {
+    "word": "the",
+    "phones": [
+      { "ph": "DH", "bg": 1155, "ed": 1159 },
+      { "ph": "AH", "bg": 1159, "ed": 1163 }
+    ]
+  },
+  { "word": "sil", "phones": [{ "ph": "SIL", "bg": 1163, "ed": 1169 }] },
+  {
+    "word": "upside-down",
+    "phones": [
+      { "ph": "AH", "bg": 1169, "ed": 1176 },
+      { "ph": "P", "bg": 1176, "ed": 1183 },
+      { "ph": "S", "bg": 1183, "ed": 1190 },
+      { "ph": "AY", "bg": 1190, "ed": 1197 },
+      { "ph": "D", "bg": 1197, "ed": 1204 },
+      { "ph": "D", "bg": 1204, "ed": 1211 },
+      { "ph": "AW", "bg": 1211, "ed": 1218 },
+      { "ph": "N", "bg": 1218, "ed": 1225 }
+    ]
+  },
+  { "word": "sil", "phones": [{ "ph": "SIL", "bg": 1225, "ed": 1231 }] },
+  {
+    "word": "world.",
+    "phones": [
+      { "ph": "W", "bg": 1231, "ed": 1237 },
+      { "ph": "ER", "bg": 1237, "ed": 1243 },
+      { "ph": "L", "bg": 1243, "ed": 1249 },
+      { "ph": "D", "bg": 1249, "ed": 1255 }
+    ]
+  }
+]
