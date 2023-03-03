@@ -1,7 +1,8 @@
-# This is a sample Python script.
+from dotenv import load_dotenv
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+from SegmentMaker.segment import TuckerSegment
+
+load_dotenv()  # take environment variables from .env.
 
 
 def print_hi(name):
@@ -11,6 +12,7 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    tucker_segment = TuckerSegment()
+    tucker_segment.generate_script()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
