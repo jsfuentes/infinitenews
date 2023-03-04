@@ -36,6 +36,9 @@ source venv/bin/activate
 python main.py
 ```
 
+*The script does not start the stream (it could in the future)* To start the stream, setup OBS
+for streaming with your Twitch key and start it through OBS
+
 
 
 
