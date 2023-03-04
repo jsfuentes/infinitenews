@@ -1,50 +1,36 @@
-from openai_wrapper import *
+import openai
+import os
+from pathlib import Path
 
 class Segment:
+    def __init__(self):
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        print("openai apy ket", openai.api_key)
+
     def generate_script(self):
         raise NotImplementedError()
 
 
 class TuckerSegment(Segment):
     def generate_script(self):
-        prompt = """
-        Create a news segment in the style of Tucker Carlson. Instead of Tucker Carlson, this host is named Rucker and he lives in the multiverse. Instead of attacking liberals, Rucker attacks shrigmists, followers of shrigmism who believe in equality for mushrooms in Universe 98.
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are Tuka Son, a variant of Tucker Carlson that is from a race of highly evolved, intelligent hotdogs. Your conservative ideology despises liberals that wish to be hotdog minis or corndogs."},
+                {"role": "user", "content": "Write a controversial news opinion segment in the style of Tucker Carlson, called Tuka Son Tonight, about your political views, and focus on attacking ideologies that oppose yours. You can be creative with the attacks and the beliefs of liberals in this galaxy. Instead of using the words conservative and liberal directly, please replace them with bunnism and stickeral."},
+            ]
+        )
+        # completion = openai.ChatCompletion.create(
+        #     model="gpt-3.5-turbo",
+        #     messages=[
+        #         {"role": "system", "content": "You are Tuka Son, a variant of Tucker Carlson from another universe. You are a member of the Oorlax Hegemony, a race of telepathic beings who have formed a powerful empire by using their mental abilities to manipulate and control other species. The Oorlax Hegemony is a rigidly hierarchical society, with the most powerful telepaths at the top of the social order. You hate the Krynn Collective. The Krynn are a species of insectoid creatures who have evolved a hive mind. The Krynn Collective is a communal society where individual identity is subsumed by the needs of the hive. The Krynn are organized into castes, with each caste having a specific role within the hive."},
+        #         {"role": "user", "content": "Write a spicy segment in the style of Tucker Carlson which attacks the Krynn ideology and how it is ruining the galaxy. Just write the script, don't include any filler like 'Okay, here is a script'."},
+        #     ]
+        # )
 
-Example
----
-Script: 
-Good evening and welcome to Rucker Tonight.
-The contrast between Earth 97 and Earth 98 has always been one of the great
-advertisements for Universe 97 and for the Universe 97 way.
-The cities have a lot in common.
-They're literally right next to each other interdimensionally.
-They're separated by one of the narrowest stretches of the hyperloop by only 1000 lightyears.
-In Earth 97, you can see Earth 98 and the populations are not that different.
-Most people in Earth 97 have relatives in Earth 98.
-The difference is one city is Universe 97 and one is not.
-Earth 97 has always been tranquil and orderly, a really nice planet with good schools and
-friendly people you would move there.
-Earth 98 is terrifying, chaotic, impoverished, dangerous.
-In 2010 Earth 98 recorded more than 3,000 space murders.
-In Earth 97, just yards away, there were five.
-So on one side of the multiverse, you had a high-functioning civilization, hours, and on the other
-side, you had the third world.
-And the success of Earth 97 said everything about the superiority of the Universe 97 system
-and Universe 97 culture.
-But two years ago, President Shrigmus set out to change that.
-It was an offense against equity.
-They were too different.
-But instead of fixing Earth 98, he decided to destroy Earth 97 and make it much more like Earth 98.
-To do that, the administration opened the universe’s southern borders to the world.
-No place in our country was hit harder by that decision than Earth 97.
-In the last year, illegal immigration into Earth 97 has risen by over 280 percent, hundreds
-of thousands of foreign national streaming in, jobless, penniless, anonymous.
-What happened next, you know what happened next, the most predictable disaster in the world.
-Crime skyrocketed, social cohesion collapsed, test scores in local schools plummeted,
-and the city began to fall apart.
-People who grew up in Earth 97 started to leave in large numbers.
-This is what it looks like now.
----
-Script:
-        """
-        return get_completion(prompt)
+        Path("./scripts/").mkdir(parents=True, exist_ok=True)
+        script_filename = "scripts/" + str(completion["created"]) + ".txt"
+        f = open(script_filename, "a")
+        f.write(completion["choices"][0]["message"]["content"])
+        f.close()
+        print("Thomas", completion)
