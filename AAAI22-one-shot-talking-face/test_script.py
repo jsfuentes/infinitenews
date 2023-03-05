@@ -171,7 +171,8 @@ def test_with_input_audio_and_image(img_path, audio_path, phs, generator_ckpt, a
     os.system(cmd)
     os.remove(video_path)
     end = time.time()
-    print("Time", end - start)
+    total_secs = end - start
+    print("Time: ", (total_secs / 60), " mins")
 
 
 if __name__ == '__main__':
