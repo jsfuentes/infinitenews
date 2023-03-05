@@ -9,9 +9,12 @@ import imageio
 from models.util import draw_annotation_box
 from models.transformer import Audio2kpTransformer
 from scipy.io import wavfile
-from tools.interface import read_img,get_img_pose,get_pose_from_audio,get_audio_feature_from_audio,\
-    parse_phoneme_file,load_ckpt
+from tools.interface import read_img, get_img_pose, get_pose_from_audio, get_audio_feature_from_audio,\
+    parse_phoneme_file, load_ckpt
 import config
+from tqdm import tqdm
+import time
+
 
 def normalize_kp(kp_source, kp_driving, kp_driving_initial,
                  use_relative_movement=True, use_relative_jacobian=True):
@@ -23,51 +26,52 @@ def normalize_kp(kp_source, kp_driving, kp_driving_initial,
         kp_new['value'] = kp_value_diff + kp_source['value']
 
         if use_relative_jacobian:
-            jacobian_diff = torch.matmul(kp_driving['jacobian'], torch.inverse(kp_driving_initial['jacobian']))
-            kp_new['jacobian'] = torch.matmul(jacobian_diff, kp_source['jacobian'])
+            jacobian_diff = torch.matmul(
+                kp_driving['jacobian'], torch.inverse(kp_driving_initial['jacobian']))
+            kp_new['jacobian'] = torch.matmul(
+                jacobian_diff, kp_source['jacobian'])
 
     return kp_new
 
 
-def test_with_input_audio_and_image(img_path, audio_path,phs, generator_ckpt, audio2pose_ckpt, save_dir="samples/results"):
+def test_with_input_audio_and_image(img_path, audio_path, phs, generator_ckpt, audio2pose_ckpt, save_dir="samples/results"):
+    start = time.time()
+
     with open("config_file/vox-256.yaml") as f:
         config = yaml.load(f)
     # temp_audio = audio_path
     # print(audio_path)
     cur_path = os.getcwd()
 
-    sr,_ = wavfile.read(audio_path)
-    if sr!=16000:
-        temp_audio = os.path.join(cur_path,"samples","temp.wav")
-        command = "ffmpeg -y -i %s -async 1 -ac 1 -vn -acodec pcm_s16le -ar 16000 %s" % (audio_path, temp_audio)
+    sr, _ = wavfile.read(audio_path)
+    if sr != 16000:
+        temp_audio = os.path.join(cur_path, "samples", "temp.wav")
+        command = "ffmpeg -y -i %s -async 1 -ac 1 -vn -acodec pcm_s16le -ar 16000 %s" % (
+            audio_path, temp_audio)
         os.system(command)
     else:
         temp_audio = audio_path
 
-
     opt = argparse.Namespace(**yaml.load(open("config_file/audio2kp.yaml")))
 
-    img = read_img(img_path)#.cuda()
+    img = read_img(img_path)  # .cuda()
 
-    first_pose = get_img_pose(img_path)#.cuda()
+    first_pose = get_img_pose(img_path)  # .cuda()
 
     audio_feature = get_audio_feature_from_audio(temp_audio)
     frames = len(audio_feature) // 4
-    frames = min(frames,len(phs["phone_list"]))
+    frames = min(frames, len(phs["phone_list"]))
 
     tp = np.zeros([256, 256], dtype=np.float32)
     draw_annotation_box(tp, first_pose[:3], first_pose[3:])
-    tp = torch.from_numpy(tp).unsqueeze(0).unsqueeze(0)#.cuda()
+    tp = torch.from_numpy(tp).unsqueeze(0).unsqueeze(0)  # .cuda()
     ref_pose = get_pose_from_audio(tp, audio_feature, audio2pose_ckpt)
     torch.cuda.empty_cache()
     trans_seq = ref_pose[:, 3:]
     rot_seq = ref_pose[:, :3]
 
-
-
-    audio_seq = audio_feature#[40:]
+    audio_seq = audio_feature  # [40:]
     ph_seq = phs["phone_list"]
-
 
     ph_frames = []
     audio_frames = []
@@ -76,7 +80,7 @@ def test_with_input_audio_and_image(img_path, audio_path,phs, generator_ckpt, au
 
     pad = np.zeros((4, audio_seq.shape[1]), dtype=np.float32)
 
-    for rid in range(0, frames):
+    for rid in tqdm(range(0, frames)):
         ph = []
         audio = []
         pose = []
@@ -104,8 +108,10 @@ def test_with_input_audio_and_image(img_path, audio_path,phs, generator_ckpt, au
         audio_frames.append(audio)
         pose_frames.append(pose)
 
-    audio_f = torch.from_numpy(np.array(audio_frames,dtype=np.float32)).unsqueeze(0)
-    poses = torch.from_numpy(np.array(pose_frames, dtype=np.float32)).unsqueeze(0)
+    audio_f = torch.from_numpy(
+        np.array(audio_frames, dtype=np.float32)).unsqueeze(0)
+    poses = torch.from_numpy(
+        np.array(pose_frames, dtype=np.float32)).unsqueeze(0)
     ph_frames = torch.from_numpy(np.array(ph_frames)).unsqueeze(0)
     bs = audio_f.shape[1]
     predictions_gen = []
@@ -117,41 +123,42 @@ def test_with_input_audio_and_image(img_path, audio_path,phs, generator_ckpt, au
     # kp_detector = kp_detector().cuda()
     # generator = generator().cuda()
 
-    ph2kp = Audio2kpTransformer(opt)#.cuda()
+    ph2kp = Audio2kpTransformer(opt)  # .cuda()
 
-    load_ckpt(generator_ckpt, kp_detector=kp_detector, generator=generator,ph2kp=ph2kp)
-
+    load_ckpt(generator_ckpt, kp_detector=kp_detector,
+              generator=generator, ph2kp=ph2kp)
 
     ph2kp.eval()
     generator.eval()
     kp_detector.eval()
 
     with torch.no_grad():
-        for frame_idx in range(bs):
+        for frame_idx in tqdm(range(bs)):
             t = {}
 
-            t["audio"] = audio_f[:, frame_idx]#.cuda()
-            t["pose"] = poses[:, frame_idx]#.cuda()
-            t["ph"] = ph_frames[:,frame_idx]#.cuda()
+            t["audio"] = audio_f[:, frame_idx]  # .cuda()
+            t["pose"] = poses[:, frame_idx]  # .cuda()
+            t["ph"] = ph_frames[:, frame_idx]  # .cuda()
             t["id_img"] = img
 
             kp_gen_source = kp_detector(img, True)
 
-            gen_kp = ph2kp(t,kp_gen_source)
+            gen_kp = ph2kp(t, kp_gen_source)
             if frame_idx == 0:
                 drive_first = gen_kp
 
-            norm = normalize_kp(kp_source=kp_gen_source, kp_driving=gen_kp, kp_driving_initial=drive_first)
+            norm = normalize_kp(kp_source=kp_gen_source,
+                                kp_driving=gen_kp, kp_driving_initial=drive_first)
             out_gen = generator(img, kp_source=kp_gen_source, kp_driving=norm)
 
             predictions_gen.append(
                 (np.transpose(out_gen['prediction'].data.cpu().numpy(), [0, 2, 3, 1])[0] * 255).astype(np.uint8))
 
-
     log_dir = save_dir
-    os.makedirs(os.path.join(log_dir, "temp"),exist_ok=True)
+    os.makedirs(os.path.join(log_dir, "temp"), exist_ok=True)
 
-    f_name = os.path.basename(img_path)[:-4] + "_" + os.path.basename(audio_path)[:-4] + ".mp4"
+    f_name = os.path.basename(
+        img_path)[:-4] + "_" + os.path.basename(audio_path)[:-4] + ".mp4"
     # kwargs = {'duration': 1. / 25.0}
     video_path = os.path.join(log_dir, "temp", f_name)
     print("save video to: ", video_path)
@@ -159,22 +166,26 @@ def test_with_input_audio_and_image(img_path, audio_path,phs, generator_ckpt, au
 
     # audio_path = os.path.join(audio_dir, x['name'][0].replace(".mp4", ".wav"))
     save_video = os.path.join(log_dir, f_name)
-    cmd = r'ffmpeg -y -i "%s" -i "%s" -vcodec copy "%s"' % (video_path, audio_path, save_video)
+    cmd = r'ffmpeg -y -i "%s" -i "%s" -vcodec copy "%s"' % (
+        video_path, audio_path, save_video)
     os.system(cmd)
     os.remove(video_path)
-
-
-
-
+    end = time.time()
+    print("Time", end - start)
 
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("--img_path", type=str, default=None, help="path of the input image ( .jpg ), preprocessed by image_preprocess.py")
-    argparser.add_argument("--audio_path", type=str, default=None, help="path of the input audio ( .wav )")
-    argparser.add_argument("--phoneme_path", type=str, default=None, help="path of the input phoneme. It should be note that the phoneme must be consistent with the input audio")
-    argparser.add_argument("--save_dir", type=str, default="samples/results", help="path of the output video")
+    argparser.add_argument("--img_path", type=str, default=None,
+                           help="path of the input image ( .jpg ), preprocessed by image_preprocess.py")
+    argparser.add_argument("--audio_path", type=str,
+                           default=None, help="path of the input audio ( .wav )")
+    argparser.add_argument("--phoneme_path", type=str, default=None,
+                           help="path of the input phoneme. It should be note that the phoneme must be consistent with the input audio")
+    argparser.add_argument(
+        "--save_dir", type=str, default="samples/results", help="path of the output video")
     args = argparser.parse_args()
 
     phoneme = parse_phoneme_file(args.phoneme_path)
-    test_with_input_audio_and_image(args.img_path,args.audio_path,phoneme,config.GENERATOR_CKPT,config.AUDIO2POSE_CKPT,args.save_dir)
+    test_with_input_audio_and_image(args.img_path, args.audio_path, phoneme,
+                                    config.GENERATOR_CKPT, config.AUDIO2POSE_CKPT, args.save_dir)
