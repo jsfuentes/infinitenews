@@ -169,3 +169,10 @@ cython_debug/
 
 .idea
 .DS_Store
+
+Wav2Lip/*.pkl
+Wav2Lip/*.jpg
+Wav2Lip/*.mp4
+Wav2Lip/*.pth
+Wav2Lip/*.mp3
+Wav2Lip/*.wav
