@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import json
 import requests
-import time
+import os
 
-from aws import put_content
+from aws import put_content, all_objects_raw, get_object
 
 # Checkout https://beta.elevenlabs.io/history for full log of audio creation3
 
@@ -36,5 +36,12 @@ def create_audio_file(file_name, text, name_of_voice="Bella"):
                 object_key=f"default/audio/{file_name}.mp3")
 
 
+def get_audio_files():
+    return all_objects_raw(filter="mp3")
+    # for raf in raw_audio_files:
+    #     base_file_name = os.path.splitext(os.path.basename(raf.key))[0]
+    #     get_object(object_key=raf.key, file_name=f"{base_file_name}.mp3")
+
+
 if __name__ == '__main__':
-    create_audio_file("Hello World, im here bb")
+    get_audio_files()
