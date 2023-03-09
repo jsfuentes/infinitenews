@@ -1,0 +1,4 @@
+ffmpeg==1.4
+obsws-python==1.4.1
+python-dotenv==1.0.0
+websocket-client==1.5.1
