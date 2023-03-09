@@ -21,6 +21,7 @@
 ## Prereqs for the script to run
 - You need OBS installed
 - Your OBS needs to have a scene called "Scene"
+- (Optional) Add a "browser source" to the scene with url https://streamelements.com/overlay/64051a1b8a11460c86b9287b/IpDQK2UXMN1Xem3Txg13-Ex2z1q24PZmHtEY7uGLHe01SRPU for donations
 
 ## Enable Websocket controls in OBS
 - In OBS, go to tools -> WebSocket Server Settings
@@ -38,6 +39,9 @@ python main.py
 
 *The script does not start the stream (it could in the future)* To start the stream, setup OBS
 for streaming with your Twitch key and start it through OBS
+
+- Add your Twitch stream key to OBS
+- Press "Start streaming"
 
 
 
