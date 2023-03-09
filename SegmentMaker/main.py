@@ -1,8 +1,5 @@
-from dotenv import load_dotenv
-
-from SegmentMaker.segment import TuckerSegment
-
-load_dotenv()  # take environment variables from .env.
+from segment import DefaultSegment, TuckerSegment
+from audio import create_audio_file
 
 
 def print_hi(name):
@@ -12,7 +9,14 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    tucker_segment = TuckerSegment()
-    tucker_segment.generate_script()
+    default_segment = DefaultSegment()
+    scripts = default_segment.generate_scripts(2)
+    print(scripts)
+    for (timestamp, script) in scripts:
+        print(timestamp, script)
+        create_audio_file(timestamp, script)
+
+    # tucker_segment = TuckerSegment()
+    # tucker_segment.generate_script()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

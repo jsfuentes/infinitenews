@@ -1,14 +1,88 @@
 import openai
 import os
 from pathlib import Path
+import requests
+import time
+import re
+
+from aws import put_content
+
 
 class Segment:
     def __init__(self):
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        print("openai apy ket", openai.api_key)
+        openai.api_key = "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"
 
-    def generate_script(self):
+    def generate_scripts(self):
         raise NotImplementedError()
+
+    def get_promptable_config(self, prompt_id):
+        url = f"https://promptable.ai/api/prompt/{prompt_id}/deployment/active"
+        r = requests.get(url)
+        return r.json()
+
+    def get_promptable(self, prompt_id, inputs={}):
+        promptable_resp = self.get_promptable_config(prompt_id)
+        # print(promptable_resp)
+        model = promptable_resp["config"]["model"]
+        temperature = promptable_resp["config"]["temperature"]
+        max_tokens = promptable_resp["config"]["max_tokens"]
+
+        prompt = promptable_resp["text"]
+
+        for prompt_input in promptable_resp["inputs"]:
+            name = prompt_input["name"]
+            if name not in inputs:
+                default_value = prompt_input["value"]
+                print(f"Going with default {name} - {default_value}")
+                prompt = prompt.replace("{{" + name + "}}", str())
+            else:
+                prompt = prompt.replace("{{" + name + "}}", str(inputs[name]))
+
+    #     print(prompt)
+        response = openai.Completion.create(
+            model=model,
+            prompt=prompt,
+            temperature=temperature,
+            max_tokens=max_tokens
+        )
+        # print(response)
+        return response["choices"][0]["text"].strip()
+
+
+class DefaultSegment(Segment):
+    def generate_topics(self, num_topics=3):
+        response = self.get_promptable("cleajvpum0n04i7eh9ybq72ms", {
+                                       "num_topics": num_topics})
+        # print(response)
+        number_regex = r"[0-9]+\. *"
+        new_line_seperated_response = re.sub(number_regex, "", response)
+        # print(new_line_seperated_response)
+        new_line_regex = r"(\n)+"
+        topics = re.sub(new_line_regex, "\n",
+                        new_line_seperated_response).split("\n")
+        # print(topics)
+        if len(topics) != num_topics:
+            print("Issue parsing topics")
+            return []
+
+        return [topic.strip() for topic in topics]
+
+    def generate_script(self, topic):
+        response = self.get_promptable(
+            "cleak4nv10n06i7ehgvkk03hm", {"topic": topic})
+        print("Generated script for topic: " + topic)
+        return response
+
+    def generate_scripts(self, num_topics=2):
+        topics = self.generate_topics(num_topics)
+        scripts = []
+        for topic in topics:
+            script = self.generate_script(topic)
+            timestamp = round(time.time())
+            put_content(script, content_type="text/plain",
+                        object_key=f"default/scripts/{timestamp}.txt")
+            scripts.append((timestamp, script))
+        return scripts
 
 
 class TuckerSegment(Segment):

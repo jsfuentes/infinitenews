@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 import json
 import requests
+import time
+
+from aws import put_content
 
 # Checkout https://beta.elevenlabs.io/history for full log of audio creation3
 
 
-def create_audio_file(text, name_of_voice="Bella", file_name="temp"):
-    mp3_file_name = file_name + ".mp3"
-    # wav_file_name = file_name + ".wav"
-
+def create_audio_file(file_name, text, name_of_voice="Bella"):
     r1 = requests.get('https://api.elevenlabs.io/v1/voices')
     resp = r1.json()
     rid = ""
@@ -30,10 +30,10 @@ def create_audio_file(text, name_of_voice="Bella", file_name="temp"):
     }
 
     r2 = requests.post(url, data=json.dumps(payload), headers=headers)
-    print("Got new audio file")
+    print(f"Got new audio file {file_name}")
 
-    with open(mp3_file_name, 'wb') as f:
-        f.write(r2.content)
+    put_content(r2.content, content_type="audio/mp3",
+                object_key=f"default/audio/{file_name}.mp3")
 
 
 if __name__ == '__main__':
