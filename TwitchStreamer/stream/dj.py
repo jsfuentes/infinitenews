@@ -43,6 +43,5 @@ class DJ:
         self._setup_next_video()
         print("Stream is ready! Start the stream in OBS when you're ready.")
         while True:
-            # Keep it running because we have async callback handlers
             sleep(60)
             self.video_files_manager.refresh_videos_deque()
