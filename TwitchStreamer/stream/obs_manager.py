@@ -2,6 +2,8 @@ import os
 
 import obsws_python as obs
 
+from .terminal_colors import bcolors
+
 SCENE_NAME = "Scene"
 SEGMENT_NAME = "Segment"
 
@@ -16,10 +18,13 @@ class OBSManager:
         if input_source.input_name == SEGMENT_NAME:
             # print("SEGMENT END", vars(self.obs_cl.get_input_settings(input_source.input_name)))
             # input_settings
-            print("END", self.obs_cl.get_input_settings(input_source.input_name).input_settings["local_file"])
+            finished_vid = self.obs_cl.get_input_settings(input_source.input_name).input_settings["local_file"]
+            print(f"{bcolors.OKCYAN}Finished playback for vid{bcolors.ENDC}", finished_vid)
+            print("---------------------------------")
+            print("---------------------------------")
             if self.setup_next_vid_fn is not None:
                 # TODO: pass in last vid to have it deleted
-                self.setup_next_vid_fn()
+                self.setup_next_vid_fn(finished_vid)
 
     def setup_obs(self, setup_next_vid_fn):
         self.setup_next_vid_fn = setup_next_vid_fn
@@ -42,6 +47,6 @@ class OBSManager:
         self.obs_ev.callback.register(self.on_media_input_playback_ended)
 
     def stage_new_vid(self, vid):
-        print("Staging vid", vid)
+        print(f"{bcolors.OKGREEN}Staging vid{bcolors.ENDC}", vid)
         self.obs_cl.set_input_settings(SEGMENT_NAME, {'is_local_file': True, 'local_file': vid, 'input_format': "mp4"},
                                        True)

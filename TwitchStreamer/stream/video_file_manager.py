@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 
 from .aws_manager import AWSManager
+from .terminal_colors import bcolors
 
 SAVED_VIDS_PATH = os.path.join(os.getcwd(), 'videos/saved/')
 NUM_DOWNLOADED_VIDS = 2  # This number MUST be less than the total num of vids in s3 or the script will try to download the playing video while its playing
@@ -45,7 +46,7 @@ class VideoFileManager:
             print("Deleting video", vid_path)
             os.remove(vid_path)
         else:
-            print("The file does not exist", vid_path)
+            print(f"{bcolors.FAIL}Cant delete vid. The file does not exist{bcolors.ENDC}", vid_path)
 
     async def _periodically_refresh_videos_deque(self):
         while True:
@@ -63,10 +64,8 @@ class VideoFileManager:
 
         # Delete, then download to avoid deleting a vid thats in the up_next (edge case)
         if last_vid is not None:
-            print("Removing vid", last_vid)
             self._remove_vid_locally(last_vid)
-        # TODO: lol this blocks, so next vid doesnt play yet
-        print("Downloading vid in bg", later_vid)
+        print(f"{bcolors.OKBLUE}Pre-downloading vid in bg{bcolors.ENDC}", later_vid)
         thr = threading.Thread(target=self._download_video_from_s3, args=([later_vid]), kwargs={})
         thr.start()
         # self._download_video_from_s3(later_vid)
@@ -74,11 +73,10 @@ class VideoFileManager:
         return os.path.join(SAVED_VIDS_PATH, next_vid)
 
     def start_managing_videos(self):
-        # TODO BRING BACL
-        # if os.path.exists(SAVED_VIDS_PATH) and os.path.isdir(SAVED_VIDS_PATH):
-        #     shutil.rmtree(SAVED_VIDS_PATH)
-        #
-        # Path(SAVED_VIDS_PATH).mkdir(parents=True, exist_ok=True)
+        if os.path.exists(SAVED_VIDS_PATH) and os.path.isdir(SAVED_VIDS_PATH):
+            shutil.rmtree(SAVED_VIDS_PATH)
+
+        Path(SAVED_VIDS_PATH).mkdir(parents=True, exist_ok=True)
 
         self.refresh_videos_deque()
 
@@ -88,14 +86,3 @@ class VideoFileManager:
             self.videos_deque.append(vid)
             self.up_next_deque.append(vid)
             self._download_video_from_s3(vid)
-
-        # print("enter async")
-        # asyncio.run(self._periodically_refresh_videos_deque())
-        # print("exit async")
-
-#         async def main():
-#     print('Hello ...')
-#     await asyncio.sleep(1)
-#     print('... World!')
-#
-# asyncio.run(main())

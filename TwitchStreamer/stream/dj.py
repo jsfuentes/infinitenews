@@ -7,6 +7,7 @@ import os
 import obsws_python as obs
 from time import sleep
 from .obs_manager import OBSManager
+from .terminal_colors import bcolors
 from .video_file_manager import VideoFileManager
 
 NUM_DOWNLOADED_VIDS = 3
@@ -41,7 +42,7 @@ class DJ:
     def start_stream(self):
         self._setup_stream()
         self._setup_next_video()
-        print("Stream is ready! Start the stream in OBS when you're ready.")
+        print(f"{bcolors.HEADER}Stream is ready! Start the stream in OBS when you're ready.{bcolors.ENDC}")
         while True:
             sleep(60)
             self.video_files_manager.refresh_videos_deque()
