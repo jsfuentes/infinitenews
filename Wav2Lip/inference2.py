@@ -291,3 +291,4 @@ class Inference:
 if __name__ == '__main__':
     x = Inference("wav2lip.pth", "news_reporter_beta.mp4",
                   "chicago.mp3", "results/wav2lip_beta_chicago2.mp4")
+    x.main()
