@@ -3,7 +3,7 @@ import json
 import requests
 import os
 
-from aws import put_content, all_objects_raw, get_object
+from aws import put_content, all_objects_raw, get_object, construct_url
 
 # Checkout https://beta.elevenlabs.io/history for full log of audio creation3
 
@@ -32,8 +32,11 @@ def create_audio_file(file_name, text, name_of_voice="Bella"):
     r2 = requests.post(url, data=json.dumps(payload), headers=headers)
     print(f"Got new audio file {file_name}")
 
+    key = f"default/audio/{file_name}.mp3"
     put_content(r2.content, content_type="audio/mp3",
-                object_key=f"default/audio/{file_name}.mp3")
+                object_key=key)
+
+    return construct_url(key)
 
 
 def get_audio_files():

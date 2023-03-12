@@ -85,7 +85,7 @@ class DefaultSegment(Segment):
             timestamp = round(time.time())
             put_content(script, content_type="text/plain",
                         object_key=f"default/scripts/{timestamp}.txt")
-            scripts.append((timestamp, script))
+            scripts.append((timestamp, topic, script))
         return scripts
 
 
@@ -117,12 +117,12 @@ class UpgradedSegment(Segment):
         topics = self.generate_topics(num_topics)
         print(topics)
         scripts = []
-        for t in topics:
-            script = self.generate_script(t)
+        for topic in topics:
+            script = self.generate_script(topic)
             timestamp = round(time.time())
             put_content(script, content_type="text/plain",
                         object_key=f"default/scripts/{timestamp}.txt")
-            scripts.append((timestamp, script))
+            scripts.append((timestamp, topic, script))
 
         return scripts
 

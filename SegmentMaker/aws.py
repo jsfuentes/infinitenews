@@ -13,7 +13,7 @@ def all_objects_raw(filter="mp4", bucket_name="interdimensional-news"):
 
 
 def all_objects(filter="mp4", bucket_name="interdimensional-news"):
-    return [construct_url(bucket_name, obj.key) for obj in all_objects_raw(filter, bucket_name)]
+    return [construct_url(obj.key, bucket_name) for obj in all_objects_raw(filter, bucket_name)]
 
 
 def get_object(object_key="default/audio/space_whales.mp3", file_name="test33.mp3", bucket_name="interdimensional-news"):
@@ -37,7 +37,7 @@ def put_content(body, content_type="video/mp4", object_key="default/test3.mp4", 
     print(f"Successfully uploaded {object_key} to S3")
 
 
-def construct_url(bucket_name, object_key):
+def construct_url(object_key, bucket_name="interdimensional-news"):
     url = "https://%s.s3.amazonaws.com/%s" % (bucket_name, object_key)
     return url
 

@@ -184,6 +184,8 @@ def add_images_to_video(topic, video):
     end = time.time()
     print(f"Completed adding images in: {(end - start)/60} mins")
 
+    return current_video
+
 
 if __name__ == "__main__":
     add_images_to_video(

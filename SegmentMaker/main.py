@@ -1,5 +1,6 @@
 from segment import UpgradedSegment, DefaultSegment, TuckerSegment
 from audio import create_audio_file
+from
 
 
 def print_hi(name):
@@ -12,9 +13,10 @@ if __name__ == '__main__':
     default_segment = UpgradedSegment()
     scripts = default_segment.generate_scripts(2)
     print(scripts)
-    # for (timestamp, script) in scripts:
-    #     print(timestamp, script)
-    #     create_audio_file(timestamp, script)
+    for (timestamp, script) in scripts:
+        print(timestamp, script)
+        audio_file = create_audio_file(timestamp, script)
+        print(audio_file)
 
     # tucker_segment = TuckerSegment()
     # tucker_segment.generate_script()
