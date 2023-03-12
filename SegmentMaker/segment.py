@@ -116,11 +116,15 @@ class UpgradedSegment(Segment):
     def generate_scripts(self, num_topics=4):
         topics = self.generate_topics(num_topics)
         print(topics)
-        segments = []
+        scripts = []
         for t in topics:
-            segment = self.generate_news_segment(t)
-            segments.append(segment)
-        return segments
+            script = self.generate_script(t)
+            timestamp = round(time.time())
+            put_content(script, content_type="text/plain",
+                        object_key=f"default/scripts/{timestamp}.txt")
+            scripts.append((timestamp, script))
+
+        return scripts
 
 
 class TuckerSegment(Segment):
