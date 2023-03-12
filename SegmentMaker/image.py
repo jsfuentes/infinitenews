@@ -6,11 +6,16 @@ import openai
 from urllib.request import urlopen
 from io import BytesIO
 from zipfile import ZipFile
+import platform
 
 import subprocess32 as sp
 # task_id = beam_prompt("Majestic, gigantic, beautiful space whales shimmering in wide array of colors in starry space background, stunning, highly detailed, 8k, ornate, intricate, cinematic, dehazed, atmospheric, (oil painting:0.75), (splash art:0.75),(teal:0.2),(orange:0.2), (by Jeremy Mann:0.5), (by John Constable:0.1),(by El Greco:0.5),(acrylic paint:0.75) ")
 
-FFMPEG_LOCATION = "/opt/homebrew/bin/ffmpeg"
+if platform.system() == "Linux":
+    FFMPEG_LOCATION = "/usr/bin/ffmpeg"
+else:
+    FFMPEG_LOCATION = "/opt/homebrew/bin/ffmpeg"
+
 openai.api_key = "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"
 
 
