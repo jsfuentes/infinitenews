@@ -83,6 +83,8 @@ class DefaultSegment(Segment):
         for topic in topics:
             script = self.generate_script(topic)
             timestamp = round(time.time())
+            put_content(topic, content_type="text/plain",
+                        object_key=f"default/topic/{timestamp}.txt")
             put_content(script, content_type="text/plain",
                         object_key=f"default/scripts/{timestamp}.txt")
             scripts.append((timestamp, topic, script))
@@ -101,7 +103,7 @@ class UpgradedSegment(Segment):
         )
         return self.parse_numbered_list(response.choices[0].message.content)
 
-    def generate_script(topic):
+    def generate_script(self, topic):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -120,6 +122,8 @@ class UpgradedSegment(Segment):
         for topic in topics:
             script = self.generate_script(topic)
             timestamp = round(time.time())
+            put_content(topic, content_type="text/plain",
+                        object_key=f"default/topic/{timestamp}.txt")
             put_content(script, content_type="text/plain",
                         object_key=f"default/scripts/{timestamp}.txt")
             scripts.append((timestamp, topic, script))

@@ -24,7 +24,7 @@ def create_audio_file(file_name, text, name_of_voice="Bella"):
     payload = {
         "text": text,
         "voice_settings": {
-            "stability": 0.3,
+            "stability": 0,
             "similarity_boost": 0.75
         }
     }

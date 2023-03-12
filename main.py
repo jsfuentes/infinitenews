@@ -1,20 +1,17 @@
 from .Wav2Lip.inference2 import Inference
-from .SegmentMaker.segment import UpgradedSegment, DefaultSegment, TuckerSegment
-from .SegmentMaker.audio import create_audio_file
 from .SegmentMaker.image import add_images_to_video
-from .SegmentMaker.aws import put_content
+from .SegmentMaker.aws import put_content, get_new_audio_urls, get_base_file_name, get_topic_text_from_url
 
 
 def main():
     while True:
         try:
-            default_segment = UpgradedSegment()
-            scripts = default_segment.generate_scripts(2)
-            print("Generated 2 scripts")
-            for (timestamp, topic, script) in scripts:
-                print(timestamp, topic, script)
-                audio_url = create_audio_file(timestamp, script)
-                output_file = "results/{file_name}_v1.mp4"
+            new_audio_urls = get_new_audio_urls()
+            for audio_url in new_audio_urls:
+                base_file_name = get_base_file_name(audio_url)
+                topic = get_topic_text_from_url(audio_url)
+
+                output_file = "results/{base_file_name}_v1.mp4"
                 inference = Inference("./Wav2Lip/wav2lip.pth", "./Wav2Lip/news_reporter_beta.mp4",
                                       audio_url, output_file)
 
@@ -26,7 +23,8 @@ def main():
 
                 with open(new_video, 'rb') as f:
                     bytes = f.read()
-                    put_content(bytes, object_key=f"default/{timestamp}.mp4")
+                    put_content(
+                        bytes, object_key=f"default/{base_file_name}.mp4")
                     print("Finished uploading video")
 
         except Exception as e:
