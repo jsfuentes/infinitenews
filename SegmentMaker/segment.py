@@ -15,6 +15,16 @@ class Segment:
     def generate_scripts(self):
         raise NotImplementedError()
 
+    def parse_numbered_list(self, raw_list):
+        number_regex = r"[0-9]+\. *"
+        new_line_seperated_response = re.sub(number_regex, "", raw_list)
+        # print(new_line_seperated_response)
+        new_line_regex = r"(\n)+"
+        l = re.sub(new_line_regex, "\n",
+                   new_line_seperated_response).split("\n")
+    #     print(l)
+        return l
+
     def get_promptable_config(self, prompt_id):
         url = f"https://promptable.ai/api/prompt/{prompt_id}/deployment/active"
         r = requests.get(url)
@@ -53,13 +63,7 @@ class DefaultSegment(Segment):
     def generate_topics(self, num_topics=3):
         response = self.get_promptable("cleajvpum0n04i7eh9ybq72ms", {
                                        "num_topics": num_topics})
-        # print(response)
-        number_regex = r"[0-9]+\. *"
-        new_line_seperated_response = re.sub(number_regex, "", response)
-        # print(new_line_seperated_response)
-        new_line_regex = r"(\n)+"
-        topics = re.sub(new_line_regex, "\n",
-                        new_line_seperated_response).split("\n")
+        topics = self.parse_numbered_list(response)
         # print(topics)
         if len(topics) != num_topics:
             print("Issue parsing topics")
@@ -83,6 +87,40 @@ class DefaultSegment(Segment):
                         object_key=f"default/scripts/{timestamp}.txt")
             scripts.append((timestamp, script))
         return scripts
+
+
+class UpgradedSegment(Segment):
+    def generate_topics(self, num_topics=4):
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a hilarious parody of a news reporter covering completely absurd and surreal stories happening across different universes. "},
+                {"role": "user", "content": f"Give {num_topics} completely absurd and surreal topics that a news reporter in a numbered list:"}
+            ],
+            temperature=1
+        )
+        return self.parse_numbered_list(response.choices[0].message.content)
+
+    def generate_script(topic):
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a Sydney Stone, a world famous comedian role playing as a news reporter telling hilarious jokes and covering important multiverse news stories."},
+                {"role": "user", "content": f"Write the dialogue from the in-depth coverage with jokes and some cuss words about '{topic}'. The segment has no introduction and is only what Sydney Scott says with no special guests, no interviews, and no in-person reporting:"}
+            ],
+            temperature=1
+        )
+
+        return response.choices[0].message.content
+
+    def generate_scripts(self, num_topics=4):
+        topics = self.generate_topics(num_topics)
+        print(topics)
+        segments = []
+        for t in topics:
+            segment = self.generate_news_segment(t)
+            segments.append(segment)
+        return segments
 
 
 class TuckerSegment(Segment):
