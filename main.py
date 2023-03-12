@@ -15,7 +15,7 @@ def main():
                 inference = Inference("./Wav2Lip/wav2lip.pth", "./Wav2Lip/news_reporter_beta.mp4",
                                       audio_url, output_file)
 
-                inference.run()
+                inference.main()
                 print("Finished inference")
 
                 new_video = add_images_to_video(topic, output_file)

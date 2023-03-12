@@ -138,8 +138,8 @@ def duration(vid_file_path):
 def add_images_to_video(topic, video):
     start = time.time()
 
-    video_duration = duration("./wav2lip_beta_whales.mp4")
-    image_duration = 15
+    video_duration = duration(video)
+    image_duration = 12
     number_of_images = round(video_duration // image_duration) - 1
     print(f"Making {number_of_images} images for {video_duration} sec video")
     current_video = video
@@ -153,6 +153,7 @@ def add_images_to_video(topic, video):
             new_video = f"./sd_images/output{i}.mp4"
         else:
             new_video = "./sd_images/final_output.mp4"
+            end_time = video_duration
         add_image_to_video(f"./sd_images/{i}/myimage/output.png",
                            current_video, new_video, start_time=start_time, end_time=end_time)
 
@@ -168,4 +169,4 @@ def add_images_to_video(topic, video):
 
 if __name__ == "__main__":
     add_images_to_video(
-        "multidimensional space whales invading our universe", "./wav2lip_beta_whales.mp4")
+        "new 24/7 AI generated news broadcast on twitch", "./wav2lip_beta_whales.mp4")

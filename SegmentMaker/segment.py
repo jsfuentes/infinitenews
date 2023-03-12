@@ -154,3 +154,9 @@ class TuckerSegment(Segment):
         f.write(completion["choices"][0]["message"]["content"])
         f.close()
         print("Thomas", completion)
+
+
+if __name__ == "__main__":
+    segment = UpgradedSegment()
+    segment.generate_script(
+        "the future of content is here. A 24/7 news broadcast on twitch where the AI voice, audio, video, and script are all AI generated")
