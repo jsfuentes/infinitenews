@@ -14,13 +14,13 @@ app = beam.App(
         "pillow",
         "accelerate",
         "safetensors",
+        "openai"
     ],
 )
 
 # Deploys function as async webhook
 app.Trigger.Webhook(
-    inputs={"prompt": beam.Types.String(
-    ), "negative_prompt": beam.Types.String()},
+    inputs={"topic": beam.Types.String()},
     handler="run.py:generate_image",
 )
 
