@@ -19,9 +19,9 @@ else:
 openai.api_key = "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"
 
 
-def beam_prompt(prompt, negative_prompt=""):
+def beam_create_image(topic):
     url = "https://beam.slai.io/4vx9m"
-    payload = {"prompt": prompt, "negative_prompt": negative_prompt}
+    payload = {"topic": topic}
     headers = {
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate",
@@ -66,12 +66,7 @@ def beam_poll(task_id):
 
 
 def beam_get_image(prompt):
-    expanded_prompt = prompt + \
-        ", stunning, highly detailed, 8k, ornate, intricate, cinematic, dehazed, atmospheric, (oil painting:0.75), (splash art:0.75),(teal:0.2),(orange:0.2), (by Jeremy Mann:0.5), (by John Constable:0.1),(by El Greco:0.5),(acrylic paint:0.75)"
-    negative_prompt = "bad:-1, ugly:-1.6, overexposed:-1, (low contrast):-1, (cut off):-1, tiling:-1, (watermark blurry):-1.5, deformed:-1, (weird colors):-1, (mutated color):-1, (muted color):-1, fused:-1, (less detail):-1, lowres:-1, (out of frame):-1, (worst quality):-1, (low quality):-1, (normal quality):-1, (displaced object):-1, (close up):-1, cartoon:-1, 3d:-1, (disfigured):-1, (deformed):-1, (poorly drawn):-1, (extra limbs):-1, blurry:-1, boring:-1, sketch:-1, lackluster:-1, signature:-1, letters:-1, (low res):-1, horrific:-1 , mutated:-1 , artifacts:-1, (bad art):-1 , gross:-1 , b&w:-1 , cropped:-1"
-    full_prompt = expanded_prompt + " " + negative_prompt
-    # print("SD IMAGE:", full_prompt)
-    task_id = beam_prompt(full_prompt)
+    task_id = beam_create_image(prompt)
     return beam_poll(task_id)
 
 
@@ -99,25 +94,6 @@ def add_image_to_video(input_image, input_video, output_file, start_time=1, end_
         return
     else:
         print("ERROR: Error running ffmpeg add_image_to_video")
-
-
-def generate_sd_prompt(topic):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a creative director for a world famous art studio. You are looking to amaze your visitors with realistic and mind blowing pieces."},
-            {"role": "user", "content": "Write a image description that is only physical nouns, adjectives, and prepositions for the concept of Ancient Venice-like city found on Earth-like planet"},
-            {"role": "assistant", "content": "establishing shot of canal surrounded by verdant blue modern curved rustic Greek tiled buildings, dawn, water, canoes, refraction"},
-            {"role": "user", "content": "Write a image description that is only physical nouns, adjectives, and prepositions for the concept of multidimensional space whales invading our universe"},
-            {"role": "assistant", "content": "Majestic, gigantic, beautiful space whales shimmering in wide array of colors in starry space background"},
-            {"role": "user", "content": f"Write a image description that is only physical nouns, adjectives, and prepositions for the concept of '{topic}'"},
-            #         {"role": "assistant", "content": "Tiny fluffy kittens running up and down, exchanging fast cards on top of an inverted black and yellow pyramid in Upside-down world."},
-            #         {"role": "user", "content": "There shouldn't be verbs or movement or actions like 'running' or 'exchanging' or vague concepts like 'Upside down world'. Regenerate please"}
-        ],
-        temperature=0.9
-    )
-
-    return response.choices[0].message.content
 
 
 def download_and_unzip(url, extract_to='.'):
@@ -168,9 +144,7 @@ def add_images_to_video(topic, video):
     print(f"Making {number_of_images} images for {video_duration} sec video")
     current_video = video
     for i in range(1, number_of_images + 1):
-        sd_prompt = generate_sd_prompt(topic)
-        print("Got sd prompt:", sd_prompt)
-        url = beam_get_image(sd_prompt)
+        url = beam_get_image(topic)
         print("Got image:", url)
         download_and_unzip(url, f"./sd_images/{i}/")
         start_time = i*image_duration
