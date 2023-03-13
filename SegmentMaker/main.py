@@ -10,13 +10,17 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     default_segment = UpgradedSegment()
-    scripts = default_segment.generate_scripts(10)
+    scripts = default_segment.generate_scripts(7)
     # print(scripts)
 
     scripts_to_generate = []
     for (timestamp, topic, script) in scripts:
         print(timestamp, "\n", topic, "\n=======================\n", script)
-        nval = int(input("Enter 1 to generate audio: "))
+        nval = ""
+        while nval == "":
+            nval = input("Enter 1 to generate audio: ")
+        nval = int(nval)
+
         if nval == 1:
             print("Adding this script...")
             scripts_to_generate.append((timestamp, topic, script))

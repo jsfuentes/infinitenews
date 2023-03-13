@@ -58,6 +58,22 @@ class Segment:
         # print(response)
         return response["choices"][0]["text"].strip()
 
+    def replaceWord(self, text, pre_word, post_word):
+        text = text.replace(pre_word, post_word)
+        text = text.replace(pre_word.lower(), post_word.lower())
+        text = text.replace(pre_word.upper(), post_word.upper())
+        text = text.replace(pre_word.title(), post_word.title())
+        return text
+
+    def uncensorWords(self, script):
+        script = self.replaceWord(script, "f***", "fuck")
+        script = self.replaceWord(script, "f*ck", "fuck")
+        script = self.replaceWord(script, "f*cking", "fucking")
+        script = self.replaceWord(script, "f**king", "fucking")
+        script = self.replaceWord(script, "sh*t", "shit")
+        script = self.replaceWord(script, "b****es", "bitches")
+        return script
+
 
 class DefaultSegment(Segment):
     def generate_topics(self, num_topics=3):
@@ -107,17 +123,14 @@ class UpgradedSegment(Segment):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a Sydney Stone, a world famous comedian role playing as a news reporter telling hilarious jokes and covering important multiverse news stories."},
-                {"role": "user", "content": f"Write the dialogue from the in-depth coverage with jokes and some completely uncensored cuss words about '{topic}'. The segment has no introduction and is only what Sydney Stone says with no special guests, no interviews, and no in-person reporting:"}
+                {"role": "system", "content": "You are a Sydney Stone, a comedian role playing as a news reporter telling hilarious jokes and covering important multiverse news stories."},
+                {"role": "user", "content": f"Write the dialogue from the in-depth coverage with jokes and sometimes completely uncensored cuss words about '{topic}'. The segment has no introduction and is only what Sydney Stone says with no special guests, no interviews, and no in-person reporting:"}
             ],
             temperature=1
         )
 
         script = response.choices[0].message.content
-        script = script.replace("f*cking", "fucking")
-        script = script.replace("f**king", "fucking")
-        script = script.replace("sh*t", "shit")
-
+        script = self.uncensorWords(script)
         return script
 
     def generate_scripts(self, num_topics=4):
