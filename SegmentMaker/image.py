@@ -169,4 +169,4 @@ def add_images_to_video(topic, video):
 
 if __name__ == "__main__":
     add_images_to_video(
-        "new 24/7 AI generated news broadcast on twitch", "./wav2lip_beta_whales.mp4")
+        "Everything all news and entertainment in the future is AI generated", "./launch_v1.mp4")
