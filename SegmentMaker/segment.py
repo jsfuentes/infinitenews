@@ -97,7 +97,7 @@ class UpgradedSegment(Segment):
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a hilarious parody of a news reporter covering completely absurd and surreal stories happening across different universes. "},
-                {"role": "user", "content": f"Give {num_topics} completely absurd and surreal topics that a news reporter in a numbered list:"}
+                {"role": "user", "content": f"Give {num_topics} completely absurd and surreal topics happening across different universes that a news reporter will cover in a numbered list:"}
             ],
             temperature=1
         )
@@ -108,12 +108,17 @@ class UpgradedSegment(Segment):
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a Sydney Stone, a world famous comedian role playing as a news reporter telling hilarious jokes and covering important multiverse news stories."},
-                {"role": "user", "content": f"Write the dialogue from the in-depth coverage with jokes and some cuss words about '{topic}'. The segment has no introduction and is only what Sydney Scott says with no special guests, no interviews, and no in-person reporting:"}
+                {"role": "user", "content": f"Write the dialogue from the in-depth coverage with jokes and some completely uncensored cuss words about '{topic}'. The segment has no introduction and is only what Sydney Stone says with no special guests, no interviews, and no in-person reporting:"}
             ],
             temperature=1
         )
 
-        return response.choices[0].message.content
+        script = response.choices[0].message.content
+        script = script.replace("f*cking", "fucking")
+        script = script.replace("f**king", "fucking")
+        script = script.replace("sh*t", "shit")
+
+        return script
 
     def generate_scripts(self, num_topics=4):
         topics = self.generate_topics(num_topics)

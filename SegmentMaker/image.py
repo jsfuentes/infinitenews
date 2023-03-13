@@ -139,27 +139,30 @@ def add_images_to_video(topic, video):
     start = time.time()
 
     video_duration = duration(video)
-    image_duration = 12
+    image_duration = 15
     number_of_images = round(video_duration // image_duration) - 1
     print(f"Making {number_of_images} images for {video_duration} sec video")
     current_video = video
     for i in range(1, number_of_images + 1):
         url = beam_get_image(topic)
-        print("Got image:", url)
-        download_and_unzip(url, f"./sd_images/{i}/")
-        start_time = i*image_duration
-        end_time = i*image_duration+image_duration
-        if i != number_of_images:
-            new_video = f"./sd_images/output{i}.mp4"
-        else:
-            new_video = "./sd_images/final_output.mp4"
-            end_time = video_duration
-        add_image_to_video(f"./sd_images/{i}/myimage/output.png",
-                           current_video, new_video, start_time=start_time, end_time=end_time)
+        if url:
+            print("Got image:", url)
+            download_and_unzip(url, f"./sd_images/{i}/")
+            start_time = i*image_duration
+            end_time = i*image_duration+image_duration
+            if i != number_of_images:
+                new_video = f"./sd_images/output{i}.mp4"
+            else:
+                new_video = "./sd_images/final_output.mp4"
+                end_time = video_duration
+            add_image_to_video(f"./sd_images/{i}/myimage/output.png",
+                               current_video, new_video, start_time=start_time, end_time=end_time)
 
-        current_video = new_video
-        print(
-            f"Added image {i} to video successfully between {start_time} and {end_time} seconds")
+            current_video = new_video
+            print(
+                f"Added image {i} to video successfully between {start_time} and {end_time} seconds")
+        else:
+            print("Failed to get image")
 
     end = time.time()
     print(f"Completed adding images in: {(end - start)/60} mins")

@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     scripts_to_generate = []
     for (timestamp, topic, script) in scripts:
-        print(timestamp, "\n", topic, "\n", script)
+        print(timestamp, "\n", topic, "\n=======================\n", script)
         nval = int(input("Enter 1 to generate audio: "))
         if nval == 1:
             print("Adding this script...")
