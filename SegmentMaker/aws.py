@@ -87,9 +87,19 @@ def get_topic_text_from_url(url, bucket_name="interdimensional-news"):
     return topic
 
 
+def get_script_text_from_url(url, bucket_name="interdimensional-news"):
+    base_file_name = get_base_file_name(url)
+    object_key = f"default/scripts/{base_file_name}.txt"
+
+    client = boto3.client('s3')
+    resp = client.get_object(Bucket=bucket_name, Key=object_key)
+    topic = str(resp["Body"].read().decode())
+    return topic
+
+
 if __name__ == '__main__':
     new_urls = get_new_audio_urls()
-    print(new_urls)
-    for url in new_urls:
-        topic = get_topic_text_from_url(url)
-        print(url, topic)
+    print(new_urls, len(new_urls))
+    # for url in new_urls:
+    #     script = get_script_text_from_url(url)
+    #     print(url, script)

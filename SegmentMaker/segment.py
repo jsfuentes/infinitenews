@@ -72,6 +72,7 @@ class Segment:
         script = self.replaceWord(script, "f**king", "fucking")
         script = self.replaceWord(script, "sh*t", "shit")
         script = self.replaceWord(script, "b****es", "bitches")
+        script = self.replaceWord(script, "motherf**kin", "motherfuckin")
         return script
 
 
@@ -113,7 +114,7 @@ class UpgradedSegment(Segment):
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a hilarious parody of a news reporter covering completely absurd and surreal stories happening across different universes. "},
-                {"role": "user", "content": f"Give {num_topics} completely absurd and surreal topics happening across different universes that a news reporter will cover in a numbered list:"}
+                {"role": "user", "content": f"Give {num_topics} completely absurd and surreal short topics happening across different universes that a news reporter will cover in a numbered list:"}
             ],
             temperature=1
         )
@@ -124,26 +125,27 @@ class UpgradedSegment(Segment):
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a Sydney Stone, a comedian role playing as a news reporter telling hilarious jokes and covering important multiverse news stories."},
-                {"role": "user", "content": f"Write the dialogue from the in-depth coverage with jokes and sometimes completely uncensored cuss words about '{topic}'. The segment has no introduction and is only what Sydney Stone says with no special guests, no interviews, and no in-person reporting:"}
+                {"role": "user", "content": f"Write the dialogue from the in-depth coverage with jokes and completely uncensored cuss words about '{topic}'. The segment has no introduction and is only what Sydney Stone says with no special guests, no interviews, no action cues, and no in-person reporting:"}
             ],
             temperature=1
         )
 
         script = response.choices[0].message.content
         script = self.uncensorWords(script)
-        return script
+
+        timestamp = round(time.time())
+        put_content(topic, content_type="text/plain",
+                    object_key=f"default/topic/{timestamp}.txt")
+        put_content(script, content_type="text/plain",
+                    object_key=f"default/scripts/{timestamp}.txt")
+        return (timestamp, script)
 
     def generate_scripts(self, num_topics=4):
         topics = self.generate_topics(num_topics)
         print(topics)
         scripts = []
         for topic in topics:
-            script = self.generate_script(topic)
-            timestamp = round(time.time())
-            put_content(topic, content_type="text/plain",
-                        object_key=f"default/topic/{timestamp}.txt")
-            put_content(script, content_type="text/plain",
-                        object_key=f"default/scripts/{timestamp}.txt")
+            (timestamp, script) = self.generate_script(topic)
             scripts.append((timestamp, topic, script))
 
         return scripts
