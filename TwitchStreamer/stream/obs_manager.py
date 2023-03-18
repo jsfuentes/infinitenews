@@ -30,6 +30,16 @@ class OBSManager:
         self.setup_next_vid_fn = setup_next_vid_fn
 
         # TODO: just create the scene if it doesn't exist
+        scene_exists = False
+        scene_list = self.obs_cl.get_scene_list()
+        for scene in scene_list.scenes:
+            if scene["sceneName"] == SCENE_NAME:
+                scene_exists = True
+                break
+
+        if not scene_exists:
+            self.obs_cl.create_scene(SCENE_NAME)
+
         scene_items = self.obs_cl.get_scene_item_list(SCENE_NAME)
 
         # If the segment exists from some previous run, remove it to start fresh
