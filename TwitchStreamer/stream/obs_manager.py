@@ -37,7 +37,7 @@ class OBSManager:
                 scene_exists = True
                 break
 
-        if not scene_exists:
+        if not scene_exists :
             self.obs_cl.create_scene(SCENE_NAME)
 
         scene_items = self.obs_cl.get_scene_item_list(SCENE_NAME)

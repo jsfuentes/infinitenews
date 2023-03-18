@@ -37,13 +37,13 @@ class DJ:
         self.obs_manager.stage_new_vid(next_vid)
 
     def _setup_stream(self):
-#         self.video_files_manager.start_managing_videos()
+        self.video_files_manager.start_managing_videos()
         self.obs_manager.setup_obs(self._setup_next_video)
 
     def start_stream(self):
         self._setup_stream()
-#         self._setup_next_video()
-#         print(f"{bcolors.HEADER}Stream is ready! Start the stream in OBS when you're ready.{bcolors.ENDC}")
-#         while True:
-#             sleep(60)
-#             self.video_files_manager.refresh_videos_deque()
+        self._setup_next_video()
+        print(f"{bcolors.HEADER}Stream is ready! Start the stream in OBS when you're ready.{bcolors.ENDC}")
+        while True:
+            sleep(60)
+            self.video_files_manager.refresh_videos_deque()
