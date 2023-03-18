@@ -32,6 +32,7 @@ class DJ:
     def _setup_next_video(self, last_vid=None):
         print("Starting new segment!")
 
+
         next_vid = self.video_files_manager.get_next_vid(last_vid)
         self.obs_manager.stage_new_vid(next_vid)
 
