@@ -15,16 +15,13 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--segment', type=str, default="upgraded",
                         help='Segment type. Options are upgraded | bananaqa')
 
-    #creates audio, default value is False
-    parser.add_argument('-a', '--audio', action = "store_true",default = "False" ,help = "Generate Audio")
+    parser.add_argument('-o', '--turn_off_audio', action = "store_false",default = "True" ,help = "Turn Off Audio")
 
     args = parser.parse_args()
     my_segment = UpgradedSegment()
     
     if args.segment == "bananaqa":
         my_segment = BananaSegment()
-
-    skip_audio = args.audio == True
 
     print("MY NAME IS", my_segment.eleven_voice_name)
 
@@ -89,14 +86,14 @@ if __name__ == '__main__':
     print("Advancing to audio generation for",
           len(scripts_to_generate), "scripts")
     
-    if skip_audio : 
-        print("With audio argument - audio will be generated!")
+    if args.turn_off_audio : 
+        print("With no argument - audio will be generated!")
         for (script_name, topic, script) in scripts_to_generate:
-            # audio_file = create_audio_file(script_name, script, name_of_voice=my_segment.eleven_voice_name)
+            audio_file = create_audio_file(script_name, script, name_of_voice=my_segment.eleven_voice_name)
             print("Generating audio for", topic)
     else :
-        print("By default, with no audio argument - audio will not be generated!")
-
+        print("With turn_off_audio argument - audio will not be generated!")
+       
     print("Finished!")
 
     # tucker_segment = TuckerSegment()
